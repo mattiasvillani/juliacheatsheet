@@ -7,7 +7,8 @@ export default {
     {name: "Optimization", path: "/optimization"},
     {name: "Statistics", path: "/statistics"},
     {name: "Automatic differentiation", path: "/autodiff"},
-    {name: "Data handling", path: "/data"}
+    {name: "Data handling", path: "/data"},
+    {name: "Parallel computing", path: "/parallel"}
   ],
   header: `
 <button id="theme-toggle" type="button" aria-label="Toggle light and dark mode" title="Toggle light/dark mode">

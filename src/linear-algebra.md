@@ -280,7 +280,7 @@ println("tridiagonal solve is ", round(Int, tdense / tstruct), "× faster")  # .
 ```
 
 ```text
-tridiagonal solve is 1615× faster
+tridiagonal solve is 1801× faster
 ```
 
 </details>

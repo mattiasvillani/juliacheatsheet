@@ -143,6 +143,7 @@
 .jl-teal { --box: #17807E; }   /* extra colours once the four logo colours are used */
 .jl-orange { --box: #C2621A; }
 .jl-gold { --box: #A07A0C; }
+.jl-slate { --box: #4F6478; }
 
 #observablehq-main {
   max-width: 960px;

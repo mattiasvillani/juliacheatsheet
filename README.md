@@ -60,9 +60,11 @@ What the example does.
 </div>
 ````
 
-- Colour: `jl-purple`, `jl-blue`, `jl-green`, `jl-red` (the Julia logo colours), `jl-teal`, `jl-orange` or `jl-gold`. All boxes on a page share one colour, and each page has its own. Add a new `.jl-<name>` rule in `src/styles.css` for further pages.
+- Colour: `jl-purple`, `jl-blue`, `jl-green`, `jl-red` (the Julia logo colours), `jl-teal`, `jl-orange`, `jl-gold` or `jl-slate`. All boxes on a page share one colour, and each page has its own. Add a new `.jl-<name>` rule in `src/styles.css` for further pages.
 - Keep the blank lines around the `<div>`, `<details>` and fenced code, or the Markdown inside will not render.
 - In the commands, write results as trailing `# comments`. Under examples, do not write output by hand: `check.jl --update` adds a ```` ```text ```` block after each example code block.
 - `check.jl` runs the commands and the example of each box in separate fresh modules, so every example must load its own packages.
+- Code that cannot run on the build machine (for example GPU code) goes in a ```` ```julia norun ```` block: it is highlighted but not run, and gets no output.
+- `check.jl` starts Julia with 4 threads and reports stale output blocks (removed with `--update`).
 - No Markdown tables inside boxes. Use aligned code comments or a short list.
 - State the Julia version when a function is newer than 1.6 (for example "Julia 1.9+").

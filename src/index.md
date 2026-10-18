@@ -37,6 +37,10 @@ toc: false
     <h2>Data handling</h2>
     <span>Downloading and reading CSV files, DataFrames and DataFramesMeta, and Tidyverse-style code with TidierData.</span>
   </a>
+  <a href="./parallel" class="card hero-card jl-slate">
+    <h2>Parallel computing</h2>
+    <span>Threads, tasks and data races, OhMyThreads, distributed processes, fast serial code, and GPUs with CUDA and KernelAbstractions.</span>
+  </a>
 </div>
 
 <div class="card getting-started">

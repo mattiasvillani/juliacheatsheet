@@ -50,10 +50,10 @@ end
 
 ```text
 n          ForwardDiff    Mooncake    ratio
-10              0.5 µs      1.1 µs     0.5×
-100            41.8 µs      7.4 µs     5.7×
-1000         3441.8 µs     97.5 µs    35.3×
-10000      494539.0 µs   1136.1 µs   435.3×
+10              0.3 µs      1.0 µs     0.3×
+100            42.5 µs      7.4 µs     5.8×
+1000         3344.9 µs     80.6 µs    41.5×
+10000      308124.8 µs    445.1 µs   692.2×
 ```
 
 </details>
@@ -329,7 +329,7 @@ println("preparation makes each call ", round(Int, t_unprepared / t_prepared), "
 ```
 
 ```text
-preparation makes each call 3× faster
+preparation makes each call 2× faster
 ```
 
 </details>

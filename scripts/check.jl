@@ -6,6 +6,8 @@
 # Only code inside boxes runs (so the home page's REPL-mode lines are skipped).
 # Each box (<div class="cheatbox ...">) runs in two fresh modules: one for the cheat-sheet
 # code and one for the folded example, so every example must run on its own.
+# Boxes using Distributed's @everywhere run in Main instead, as in the REPL, because
+# @everywhere defines things in Main. Blocks marked ```julia norun are not run.
 
 import Pkg
 Pkg.activate(@__DIR__; io = devnull)   # packages used on the site: scripts/Project.toml
@@ -56,7 +58,12 @@ function check_file(file)
     while i <= length(lines)
         line = lines[i]
         if startswith(line, "<div class=\"cheatbox")
-            sheet, example = Module(:Sheet), Module(:Example)
+            boxend = something(findnext(==("</details>"), lines, i), length(lines))
+            if any(occursin("@everywhere", l) for l in lines[i:boxend])
+                sheet = example = Main
+            else
+                sheet, example = Module(:Sheet), Module(:Example)
+            end
             inbox = true
         elseif startswith(line, "<details")
             inexample = true
@@ -64,6 +71,14 @@ function check_file(file)
             inexample = false
         elseif line == "</div>" && !inexample
             inbox = false
+        end
+        if line == "```text"            # outputs are consumed below, so this one is stale
+            j = fence_end(lines, i)
+            println(UPDATE ? "removed" : "WARNING:", " stale output block at $(basename(file)):$i")
+            UPDATE || append!(out, lines[i:j-1])
+            UPDATE && !isempty(out) && isempty(strip(out[end])) && pop!(out)
+            i = j
+            continue
         end
         if line != "```julia" || !inbox
             push!(out, line)
@@ -110,7 +125,7 @@ end
 failed = String[]
 for file in sort(filter(endswith(".md"), readdir(SRC; join = true)))
     println("checking ", basename(file))
-    cmd = `$(Base.julia_cmd()) --startup-file=no $(@__FILE__) --file $file $(UPDATE ? ["--update"] : [])`
+    cmd = `$(Base.julia_cmd()) --startup-file=no --threads=4 $(@__FILE__) --file $file $(UPDATE ? ["--update"] : [])`
     success(pipeline(cmd; stdout, stderr)) || push!(failed, basename(file))
 end
 println(isempty(failed) ? "all blocks ran" : "errors in: " * join(failed, ", "))
