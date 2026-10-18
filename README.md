@@ -60,7 +60,7 @@ What the example does.
 </div>
 ````
 
-- Colour: `jl-purple`, `jl-blue`, `jl-green`, `jl-red` (the Julia logo colours), `jl-teal` or `jl-orange`. All boxes on a page share one colour, and each page has its own. Add a new `.jl-<name>` rule in `src/styles.css` for further pages.
+- Colour: `jl-purple`, `jl-blue`, `jl-green`, `jl-red` (the Julia logo colours), `jl-teal`, `jl-orange` or `jl-gold`. All boxes on a page share one colour, and each page has its own. Add a new `.jl-<name>` rule in `src/styles.css` for further pages.
 - Keep the blank lines around the `<div>`, `<details>` and fenced code, or the Markdown inside will not render.
 - In the commands, write results as trailing `# comments`. Under examples, do not write output by hand: `check.jl --update` adds a ```` ```text ```` block after each example code block.
 - `check.jl` runs the commands and the example of each box in separate fresh modules, so every example must load its own packages.

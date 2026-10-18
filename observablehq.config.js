@@ -6,7 +6,8 @@ export default {
     {name: "Linear algebra", path: "/linear-algebra"},
     {name: "Optimization", path: "/optimization"},
     {name: "Statistics", path: "/statistics"},
-    {name: "Automatic differentiation", path: "/autodiff"}
+    {name: "Automatic differentiation", path: "/autodiff"},
+    {name: "Data handling", path: "/data"}
   ],
   header: `
 <button id="theme-toggle" type="button" aria-label="Toggle light and dark mode" title="Toggle light/dark mode">

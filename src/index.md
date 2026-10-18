@@ -33,6 +33,10 @@ toc: false
     <h2>Automatic differentiation</h2>
     <span>ForwardDiff, Mooncake and DifferentiationInterface: gradients, Jacobians, Hessians, preparation, pitfalls.</span>
   </a>
+  <a href="./data" class="card hero-card jl-gold">
+    <h2>Data handling</h2>
+    <span>Downloading and reading CSV files, DataFrames and DataFramesMeta, and Tidyverse-style code with TidierData.</span>
+  </a>
 </div>
 
 <div class="card getting-started">
