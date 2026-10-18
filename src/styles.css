@@ -1,0 +1,213 @@
+@import url("observablehq:default.css");
+
+/*
+ * Framework's default sidebar padding-left is
+ * calc(max(0rem, (100vw - max-width) / 2)) — it aligns the sidebar's nav
+ * text with the centered main-content column, but on wide screens that
+ * pushes nav items far from the edge, reading as a big empty gap. Pin it
+ * to a small fixed value instead.
+ */
+#observablehq-sidebar {
+  --observablehq-sidebar-padding-left: 1rem;
+}
+
+/*
+ * Theme variables, normally supplied by Framework's automatic
+ * "observablehq:theme-*.css" imports — inlined here (values copied verbatim
+ * from theme-air.css / theme-near-midnight.css + abstract-light.css /
+ * abstract-dark.css) so they can also be switched by the [data-theme]
+ * attribute the light/dark toggle button sets, not just by
+ * prefers-color-scheme.
+ */
+:root {
+  --theme-foreground: #1b1e23;
+  --theme-foreground-focus: #3b5fc0;
+  --theme-background-a: #ffffff;
+  --theme-background-b: color-mix(in srgb, var(--theme-foreground) 4%, var(--theme-background-a));
+  --theme-background: var(--theme-background-a);
+  --theme-background-alt: var(--theme-background-b);
+  --theme-foreground-alt: color-mix(in srgb, var(--theme-foreground) 90%, var(--theme-background-a));
+  --theme-foreground-muted: color-mix(in srgb, var(--theme-foreground) 60%, var(--theme-background-a));
+  --theme-foreground-faint: color-mix(in srgb, var(--theme-foreground) 50%, var(--theme-background-a));
+  --theme-foreground-fainter: color-mix(in srgb, var(--theme-foreground) 30%, var(--theme-background-a));
+  --theme-foreground-faintest: color-mix(in srgb, var(--theme-foreground) 14%, var(--theme-background-a));
+  color-scheme: light;
+  /* syntax colours, from Framework's syntax-light.css / syntax-dark.css */
+  --syntax-keyword: #d73a49;
+  --syntax-entity: #6f42c1;
+  --syntax-constant: #005cc5;
+  --syntax-string: #032f62;
+  --syntax-variable: #e36209;
+  --syntax-comment: var(--theme-foreground-muted);
+
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    --theme-foreground: #dfdfd6;
+    --theme-foreground-focus: oklch(0.712564 0.257662 265.758);
+    --theme-background-b: #161616;
+    --theme-background-a: color-mix(in srgb, var(--theme-foreground) 4%, var(--theme-background-b));
+    --theme-background: var(--theme-background-a);
+    --theme-background-alt: var(--theme-background-b);
+    --theme-foreground-alt: color-mix(in srgb, var(--theme-foreground) 90%, var(--theme-background-b));
+    --theme-foreground-muted: color-mix(in srgb, var(--theme-foreground) 60%, var(--theme-background-b));
+    --theme-foreground-faint: color-mix(in srgb, var(--theme-foreground) 50%, var(--theme-background-b));
+    --theme-foreground-fainter: color-mix(in srgb, var(--theme-foreground) 30%, var(--theme-background-b));
+    --theme-foreground-faintest: color-mix(in srgb, var(--theme-foreground) 14%, var(--theme-background-b));
+    color-scheme: dark;
+    --syntax-keyword: #ff7b72;
+    --syntax-entity: #d2a8ff;
+    --syntax-constant: #79c0ff;
+    --syntax-string: #a5d6ff;
+    --syntax-variable: #ffa657;
+    --syntax-comment: var(--theme-foreground-muted);
+  }
+}
+:root[data-theme="dark"] {
+  --theme-foreground: #dfdfd6;
+  --theme-foreground-focus: oklch(0.712564 0.257662 265.758);
+  --theme-background-b: #161616;
+  --theme-background-a: color-mix(in srgb, var(--theme-foreground) 4%, var(--theme-background-b));
+  --theme-background: var(--theme-background-a);
+  --theme-background-alt: var(--theme-background-b);
+  --theme-foreground-alt: color-mix(in srgb, var(--theme-foreground) 90%, var(--theme-background-b));
+  --theme-foreground-muted: color-mix(in srgb, var(--theme-foreground) 60%, var(--theme-background-b));
+  --theme-foreground-faint: color-mix(in srgb, var(--theme-foreground) 50%, var(--theme-background-b));
+  --theme-foreground-fainter: color-mix(in srgb, var(--theme-foreground) 30%, var(--theme-background-b));
+  --theme-foreground-faintest: color-mix(in srgb, var(--theme-foreground) 14%, var(--theme-background-b));
+  color-scheme: dark;
+  --syntax-keyword: #ff7b72;
+  --syntax-entity: #d2a8ff;
+  --syntax-constant: #79c0ff;
+  --syntax-string: #a5d6ff;
+  --syntax-variable: #ffa657;
+  --syntax-comment: var(--theme-foreground-muted);
+}
+
+
+#observablehq-footer {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--theme-foreground-fainter);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+
+#theme-toggle {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  padding: 0;
+  border: none;
+  border-radius: 0.4rem;
+  background: none;
+  color: var(--theme-foreground-muted);
+  cursor: pointer;
+}
+#theme-toggle:hover {
+  background: var(--theme-background-alt);
+  color: var(--theme-foreground);
+}
+#theme-toggle-sun {
+  display: block;
+}
+#theme-toggle-moon {
+  display: none;
+}
+:root[data-theme="dark"] #theme-toggle-sun {
+  display: none;
+}
+:root[data-theme="dark"] #theme-toggle-moon {
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) #theme-toggle-sun {
+    display: none;
+  }
+  :root:not([data-theme]) #theme-toggle-moon {
+    display: block;
+  }
+}
+
+/* Cheat-sheet boxes. Colours from the Julia logo. */
+.jl-purple { --box: #9558B2; }
+.jl-blue { --box: #4063D8; }
+.jl-green { --box: #389826; }
+.jl-red { --box: #CB3C33; }
+
+#observablehq-main {
+  max-width: 960px;
+}
+
+.cheatbox {
+  border: 1.5px solid var(--box);
+  border-radius: 6px;
+  margin: 1.5rem 0;
+  padding: 0 1rem 0.25rem;
+  max-width: none;
+}
+.cheatbox > * {
+  max-width: none;
+}
+.cheatbox > h2 {
+  margin: 0 -1rem 0.75rem;
+  padding: 0.4rem 1rem;
+  background: var(--box);
+  color: white;
+  font-size: 16px;
+  border-radius: 4px 4px 0 0;
+}
+.cheatbox > h2 code {
+  color: white;
+  font-size: 15px;
+}
+.cheatbox > h2 a,
+.cheatbox > h2 a:hover {
+  color: white;
+}
+.cheatbox pre {
+  font-size: 13px;
+}
+
+details.example {
+  margin: 0.75rem -1rem -0.25rem;
+  padding: 0 1rem;
+  border-top: 1px dashed var(--box);
+}
+details.example > summary {
+  padding: 0.5rem 0;
+  font-weight: 600;
+  color: var(--box);
+  cursor: pointer;
+}
+details.example[open] {
+  background: color-mix(in srgb, var(--box) 6%, var(--theme-background));
+  padding-bottom: 0.5rem;
+}
+/* program output, shown below each example code block */
+details.example pre:has(> code.language-text) {
+  border-left: 3px solid var(--box);
+  background: var(--theme-background);
+}
+
+.topic-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-top: 6px solid var(--box);
+}
+.topic-card:hover {
+  border-color: var(--box);
+}
+.topic-card h2 {
+  color: var(--box);
+}
+.topic-card span {
+  color: var(--theme-foreground-muted);
+}

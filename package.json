@@ -1,0 +1,13 @@
+{
+  "name": "juliacheatsheet",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "observable preview",
+    "build": "observable build",
+    "check": "julia scripts/check.jl"
+  },
+  "dependencies": {
+    "@observablehq/framework": "^1.13.4"
+  }
+}
