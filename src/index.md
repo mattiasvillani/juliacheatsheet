@@ -29,6 +29,10 @@ toc: false
     <h2>Statistics</h2>
     <span>Descriptive statistics, StatsBase, random numbers, and Distributions.jl: densities, fitting, multivariate, mixtures.</span>
   </a>
+  <a href="./autodiff" class="card hero-card jl-orange">
+    <h2>Automatic differentiation</h2>
+    <span>ForwardDiff, Mooncake and DifferentiationInterface: gradients, Jacobians, Hessians, preparation, pitfalls.</span>
+  </a>
 </div>
 
 <div class="card getting-started">

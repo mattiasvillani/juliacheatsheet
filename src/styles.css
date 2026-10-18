@@ -140,7 +140,8 @@
 .jl-blue { --box: #4063D8; }
 .jl-green { --box: #389826; }
 .jl-red { --box: #CB3C33; }
-.jl-teal { --box: #17807E; }   /* extra colour once the four logo colours are used */
+.jl-teal { --box: #17807E; }   /* extra colours once the four logo colours are used */
+.jl-orange { --box: #C2621A; }
 
 #observablehq-main {
   max-width: 960px;
