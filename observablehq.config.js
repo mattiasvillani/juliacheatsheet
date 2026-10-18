@@ -2,7 +2,8 @@ export default {
   title: "Julia cheat sheet",
   pages: [
     {name: "Collections", path: "/collections"},
-    {name: "Types", path: "/types"}
+    {name: "Types", path: "/types"},
+    {name: "Linear algebra", path: "/linear-algebra"}
   ],
   header: `
 <button id="theme-toggle" type="button" aria-label="Toggle light and dark mode" title="Toggle light/dark mode">
