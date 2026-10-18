@@ -144,6 +144,21 @@
 .jl-orange { --box: #C2621A; }
 .jl-gold { --box: #A07A0C; }
 .jl-slate { --box: #4F6478; }
+.jl-navy { --box: #2B4C7E; }
+.jl-magenta { --box: #B03A8C; }
+.jl-brown { --box: #8A5A35; }
+.jl-olive { --box: #6B7A1E; }
+.jl-cyan { --box: #1B7FA6; }
+.jl-wine { --box: #8E2747; }
+.jl-indigo { --box: #5A4FCF; }
+.jl-pine { --box: #2F5D50; }
+
+/* text in the box colour: lightened in dark mode so the darker colours stay readable */
+[class*="jl-"] { --box-text: var(--box); }
+:root[data-theme="dark"] [class*="jl-"] { --box-text: color-mix(in srgb, var(--box) 55%, white); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) [class*="jl-"] { --box-text: color-mix(in srgb, var(--box) 55%, white); }
+}
 
 #observablehq-main {
   max-width: 960px;
@@ -187,7 +202,7 @@ details.example {
 details.example > summary {
   padding: 0.5rem 0;
   font-weight: 600;
-  color: var(--box);
+  color: var(--box-text);
   cursor: pointer;
 }
 details.example[open] {

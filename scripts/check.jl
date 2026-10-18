@@ -9,12 +9,25 @@
 # Boxes using Distributed's @everywhere run in Main instead, as in the REPL, because
 # @everywhere defines things in Main. Blocks marked ```julia norun are not run.
 
-import Pkg
+import Pkg, REPL
 Pkg.activate(@__DIR__; io = devnull)   # packages used on the site: scripts/Project.toml
 Pkg.instantiate()
 
 const SRC = joinpath(@__DIR__, "..", "src")
+const FIGS = joinpath(SRC, "figures")   # images saved by examples, as <page>-<file>
 const UPDATE = "--update" in ARGS
+ENV["GKSwstype"] = "100"                # Plots.jl (GR) without a display
+
+# Blocks run in an empty temporary folder. Images an example saves there are moved to
+# src/figures/<page>-<name>, where the page shows them; other files are deleted.
+function collect_files(page, keep)
+    for f in readdir(pwd())
+        if keep && any(endswith(f, e) for e in (".png", ".svg", ".gif"))
+            UPDATE && (mkpath(FIGS); mv(f, joinpath(FIGS, "$page-$f"); force = true))
+        end
+        rm(f; force = true, recursive = true)
+    end
+end
 
 # Run code in mod and return what the REPL would show: printed output plus the last value.
 function run_block(mod, code, label)
@@ -23,7 +36,7 @@ function run_block(mod, code, label)
     try
         redirect_stdout(io) do
             redirect_stderr(io) do
-                value = Base.include_string(mod, code, label)
+                value = Base.include_string(REPL.softscope, mod, code, label)   # loops update globals as in the REPL
             end
         end
     finally
@@ -49,6 +62,9 @@ function fence_end(lines, i)
 end
 
 function check_file(file)
+    file = abspath(file)
+    cd(mktempdir())
+    page = splitext(basename(file))[1]
     lines = readlines(file)
     out = String[]
     nerr = 0
@@ -97,6 +113,7 @@ function check_file(file)
             println("ERROR in ", label, "\n  ", sprint(showerror, err))
             nothing
         end
+        collect_files(page, inexample)
         i = j
 
         # an existing ```text block right after an example block is its output

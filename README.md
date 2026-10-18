@@ -19,9 +19,10 @@ Pushing to `main` builds the site and deploys it to GitHub Pages (`.github/workf
 
 ```
 observablehq.config.js   site title, sidebar pages, theme toggle, footer
-src/index.md             home page with a card per topic
+src/index.md             home page with a card per topic, in the same groups as the sidebar
 src/<topic>.md           one page per topic (collections.md, types.md, ...)
 src/styles.css           theme, box colours and layout
+src/figures/             images saved by examples (written by check.jl --update)
 scripts/check.jl         runs the Julia code and writes example outputs
 scripts/Project.toml     Julia packages used on the site (check.jl activates it; add new ones with julia --project=scripts)
 ```
@@ -29,7 +30,7 @@ scripts/Project.toml     Julia packages used on the site (check.jl activates it;
 ## Adding a topic
 
 1. Create `src/<topic>.md` (copy the structure of an existing page).
-2. Add it to `pages` in `observablehq.config.js` and add a card in `src/index.md`.
+2. Add it to the right group in `pages` in `observablehq.config.js` (groups go from basic to advanced) and add a card to the same group in `src/index.md`.
 3. Run `julia scripts/check.jl --update` to check the code and fill in the example outputs.
 
 ## Box conventions
@@ -60,11 +61,12 @@ What the example does.
 </div>
 ````
 
-- Colour: `jl-purple`, `jl-blue`, `jl-green`, `jl-red` (the Julia logo colours), `jl-teal`, `jl-orange`, `jl-gold` or `jl-slate`. All boxes on a page share one colour, and each page has its own. Add a new `.jl-<name>` rule in `src/styles.css` for further pages.
+- Colour: `jl-purple`, `jl-blue`, `jl-green`, `jl-red` (the Julia logo colours), `jl-teal`, `jl-orange`, `jl-gold`, `jl-slate`, `jl-navy`, `jl-magenta`, `jl-brown`, `jl-olive`, `jl-cyan`, `jl-wine`, `jl-indigo` or `jl-pine`. All boxes on a page share one colour, and each page has its own. Add a new `.jl-<name>` rule in `src/styles.css` for further pages.
 - Keep the blank lines around the `<div>`, `<details>` and fenced code, or the Markdown inside will not render.
 - In the commands, write results as trailing `# comments`. Under examples, do not write output by hand: `check.jl --update` adds a ```` ```text ```` block after each example code block.
 - `check.jl` runs the commands and the example of each box in separate fresh modules, so every example must load its own packages.
 - Code that cannot run on the build machine (for example GPU code) goes in a ```` ```julia norun ```` block: it is highlighted but not run, and gets no output.
-- `check.jl` starts Julia with 4 threads and reports stale output blocks (removed with `--update`).
+- `check.jl` starts Julia with 4 threads, runs blocks with the REPL's soft scope in an empty temporary folder, and reports stale output blocks (removed with `--update`).
+- Figures: an example saves `name.png` (or `.svg`, `.gif`) in the current folder, and `check.jl --update` moves it to `src/figures/<page>-name.png`. Show it below the example with `![Alt text](./figures/<page>-name.png)`.
 - No Markdown tables inside boxes. Use aligned code comments or a short list.
 - State the Julia version when a function is newer than 1.6 (for example "Julia 1.9+").

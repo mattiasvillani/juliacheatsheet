@@ -1,14 +1,47 @@
 export default {
   title: "Julia cheat sheet",
+  // ordered from basic to advanced
   pages: [
-    {name: "Collections", path: "/collections"},
-    {name: "Types", path: "/types"},
-    {name: "Linear algebra", path: "/linear-algebra"},
-    {name: "Optimization", path: "/optimization"},
-    {name: "Statistics", path: "/statistics"},
-    {name: "Automatic differentiation", path: "/autodiff"},
-    {name: "Data handling", path: "/data"},
-    {name: "Parallel computing", path: "/parallel"}
+    {
+      name: "The language",
+      open: true,
+      pages: [
+        {name: "Basics", path: "/basics"},
+        {name: "Functions", path: "/functions"},
+        {name: "Collections", path: "/collections"},
+        {name: "Strings and files", path: "/strings"},
+        {name: "Types", path: "/types"},
+        {name: "Packages and environments", path: "/packages"}
+      ]
+    },
+    {
+      name: "Data and statistics",
+      open: true,
+      pages: [
+        {name: "Linear algebra", path: "/linear-algebra"},
+        {name: "Statistics", path: "/statistics"},
+        {name: "Data handling", path: "/data"},
+        {name: "Plotting", path: "/plotting"}
+      ]
+    },
+    {
+      name: "Inference",
+      open: true,
+      pages: [
+        {name: "Optimization", path: "/optimization"},
+        {name: "Automatic differentiation", path: "/autodiff"},
+        {name: "Bayesian inference", path: "/bayes"}
+      ]
+    },
+    {
+      name: "Advanced",
+      open: true,
+      pages: [
+        {name: "Performance", path: "/performance"},
+        {name: "Parallel computing", path: "/parallel"},
+        {name: "Metaprogramming", path: "/metaprogramming"}
+      ]
+    }
   ],
   header: `
 <button id="theme-toggle" type="button" aria-label="Toggle light and dark mode" title="Toggle light/dark mode">
