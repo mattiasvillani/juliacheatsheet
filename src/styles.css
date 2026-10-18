@@ -140,6 +140,7 @@
 .jl-blue { --box: #4063D8; }
 .jl-green { --box: #389826; }
 .jl-red { --box: #CB3C33; }
+.jl-teal { --box: #17807E; }   /* extra colour once the four logo colours are used */
 
 #observablehq-main {
   max-width: 960px;
@@ -194,20 +195,4 @@ details.example[open] {
 details.example pre:has(> code.language-text) {
   border-left: 3px solid var(--box);
   background: var(--theme-background);
-}
-
-.topic-card {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-  border-top: 6px solid var(--box);
-}
-.topic-card:hover {
-  border-color: var(--box);
-}
-.topic-card h2 {
-  color: var(--box);
-}
-.topic-card span {
-  color: var(--theme-foreground-muted);
 }

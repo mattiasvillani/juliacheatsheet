@@ -3,7 +3,9 @@ export default {
   pages: [
     {name: "Collections", path: "/collections"},
     {name: "Types", path: "/types"},
-    {name: "Linear algebra", path: "/linear-algebra"}
+    {name: "Linear algebra", path: "/linear-algebra"},
+    {name: "Optimization", path: "/optimization"},
+    {name: "Statistics", path: "/statistics"}
   ],
   header: `
 <button id="theme-toggle" type="button" aria-label="Toggle light and dark mode" title="Toggle light/dark mode">

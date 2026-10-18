@@ -729,7 +729,7 @@ println("abstract field is ", round(tslow / tfast, digits = 1), "× slower")
 ```
 
 ```text
-abstract field is 19.2× slower
+abstract field is 23.1× slower
 ```
 
 ```julia

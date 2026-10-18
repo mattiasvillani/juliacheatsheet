@@ -23,6 +23,7 @@ src/index.md             home page with a card per topic
 src/<topic>.md           one page per topic (collections.md, types.md, ...)
 src/styles.css           theme, box colours and layout
 scripts/check.jl         runs the Julia code and writes example outputs
+scripts/Project.toml     Julia packages used on the site (check.jl activates it; add new ones with julia --project=scripts)
 ```
 
 ## Adding a topic
@@ -59,7 +60,7 @@ What the example does.
 </div>
 ````
 
-- Colour: `jl-purple`, `jl-blue`, `jl-green` or `jl-red` (the Julia logo colours). All boxes on a page share one colour, and each page has its own.
+- Colour: `jl-purple`, `jl-blue`, `jl-green`, `jl-red` (the Julia logo colours) or `jl-teal`. All boxes on a page share one colour, and each page has its own. Add a new `.jl-<name>` rule in `src/styles.css` for further pages.
 - Keep the blank lines around the `<div>`, `<details>` and fenced code, or the Markdown inside will not render.
 - In the commands, write results as trailing `# comments`. Under examples, do not write output by hand: `check.jl --update` adds a ```` ```text ```` block after each example code block.
 - `check.jl` runs the commands and the example of each box in separate fresh modules, so every example must load its own packages.

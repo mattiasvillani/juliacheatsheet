@@ -274,13 +274,13 @@ Qbig = ar1_precision(n, 0.8, 1.0)
 Qdense = Matrix(Qbig)
 b = ones(n)
 Qbig \ b ≈ Qdense \ b                   # same answer...
-tstruct = @elapsed Qbig \ b
-tdense = @elapsed Qdense \ b
+tstruct = minimum(@elapsed(Qbig \ b) for _ in 1:5)     # best of 5 runs
+tdense = minimum(@elapsed(Qdense \ b) for _ in 1:5)
 println("tridiagonal solve is ", round(Int, tdense / tstruct), "× faster")  # ...much faster
 ```
 
 ```text
-tridiagonal solve is 8× faster
+tridiagonal solve is 1757× faster
 ```
 
 </details>
