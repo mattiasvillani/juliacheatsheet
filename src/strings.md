@@ -13,14 +13,14 @@ Strings use double quotes and characters use single quotes. `*` joins strings an
 
 ```julia
 s = "Julia"
-'J'                         # a Char
+c = 'J'                     # a Char
 s[1], s[end]                # ('J', 'a')
 s * " is fast"              # "Julia is fast"   concatenation
-"$s has $(length(s)) letters"   # "Julia has 5 letters"
+t = "$s has $(length(s)) letters"   # "Julia has 5 letters"
 s^2                         # "JuliaJulia"
-"""multi
+m = """multi
 line"""                     # triple quotes for multiline strings
-raw"C:\path"                # no escapes processed
+p = raw"C:\path"            # no escapes processed
 string("x = ", 1.5)         # "x = 1.5"   convert and join anything
 uppercase(s), lowercase(s)  # ("JULIA", "julia")
 ```
@@ -42,6 +42,13 @@ for c in lowercase(s)
     isletter(c) && (counts[c] = get(counts, c, 0) + 1)
 end
 println(sort(collect(counts); by = last, rev = true)[1:3])
+```
+
+```text
+14 characters, 15 bytes
+first 7: Bayes f
+reversed: alla röf seyaB
+['a' => 3, 'l' => 2, 'f' => 1]
 ```
 
 </details>
@@ -90,6 +97,11 @@ end
 println(settings)
 ```
 
+```text
+skipping thin = two
+Dict("step" => 0.35, "nsamples" => 5000.0, "burnin" => 1000.0)
+```
+
 </details>
 </div>
 
@@ -121,6 +133,14 @@ for m in eachmatch(r"(?<value>\d+(\.\d+)?)\s*(?<unit>s|GB)\b", text)
 end
 seconds = sum(parse(Float64, m["v"]) for m in eachmatch(r"(?<v>[\d.]+) s\b", text))
 println("total seconds: ", seconds)
+```
+
+```text
+s  12.5
+s  3.0
+GB 1.2
+GB 0.8
+total seconds: 15.5
 ```
 
 </details>
@@ -158,6 +178,13 @@ for name in sort(collect(keys(draws)))
     x = draws[name]
     @printf("%-4s %8.3f %8.3f %8.3f %8.3f\n", name, mean(x), std(x), quantile(x, 0.025), quantile(x, 0.975))
 end
+```
+
+```text
+par      mean       sd     q2.5    q97.5
+β₁     -1.493    0.795   -3.078    0.046
+μ       1.997    0.099    1.802    2.189
+σ       1.650    0.081    1.503    1.814
 ```
 
 </details>
@@ -206,6 +233,10 @@ cd(mktempdir()) do
 end
 ```
 
+```text
+acceptance rate = 0.314
+```
+
 </details>
 </div>
 
@@ -250,6 +281,10 @@ end
 println(sort(csvs))
 ```
 
+```text
+["a.csv", "sub/c.csv", "sub/deep/d.csv"]
+```
+
 </details>
 </div>
 
@@ -289,6 +324,12 @@ cd(mktempdir()) do
     println(f["settings"])
     println(size(f["draws"]), " ", f["draws"] == draws)
 end
+```
+
+```text
+["draws", "settings"]
+(sampler = "RWM", step = 0.4, seed = 4)
+(2000, 2) true
 ```
 
 </details>

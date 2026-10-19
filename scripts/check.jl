@@ -29,10 +29,18 @@ function collect_files(page, keep)
     end
 end
 
+# A fresh module set up like Main in the REPL: with eval, include and InteractiveUtils.
+function replmodule(name)
+    m = Module(name)
+    Core.eval(m, :(eval(x) = Core.eval($m, x); include(p) = Base.include($m, p); using InteractiveUtils))
+    return m
+end
+
 # Run code in mod and return what the REPL would show: printed output plus the last value.
 function run_block(mod, code, label)
     path, io = mktemp()
     value = nothing
+    pushdisplay(TextDisplay(IOContext(io, :limit => true, :displaysize => (24, 100))))   # capture display(x)
     try
         redirect_stdout(io) do
             redirect_stderr(io) do
@@ -40,16 +48,18 @@ function run_block(mod, code, label)
             end
         end
     finally
+        popdisplay()
         close(io)
     end
     out = read(path, String)
     rm(path)
     if value !== nothing && !endswith(rstrip(code), ";")
         buf = IOBuffer()
-        Base.invokelatest(show, IOContext(buf, :limit => true, :displaysize => (24, 80)), MIME"text/plain"(), value)
+        Base.invokelatest(show, IOContext(buf, :limit => true, :displaysize => (24, 100)), MIME"text/plain"(), value)
         out *= String(take!(buf)) * "\n"
     end
-    return rstrip(out)
+    # types defined in an example print as in the REPL, without the module prefix
+    return rstrip(replace(out, r"Main\.(Sheet|Example)\." => ""))
 end
 
 # Index of the line after the fenced block that starts at line i.
@@ -78,7 +88,7 @@ function check_file(file)
             if any(occursin("@everywhere", l) for l in lines[i:boxend])
                 sheet = example = Main
             else
-                sheet, example = Module(:Sheet), Module(:Example)
+                sheet, example = replmodule(:Sheet), replmodule(:Example)
             end
             inbox = true
         elseif startswith(line, "<details")

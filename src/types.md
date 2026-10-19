@@ -290,7 +290,7 @@ SamplerSettings(100, 10, 2, 1.0, nothing)
 ```
 
 ```text
-Main.Example.SamplerSettings(100, 10, 2, 1.0, nothing)
+SamplerSettings(100, 10, 2, 1.0, nothing)
 ```
 
 </details>
@@ -335,7 +335,7 @@ ProbVec([0.2, 0.3, 0.5])
 ```
 
 ```text
-Main.Example.ProbVec([0.2, 0.3, 0.5])
+ProbVec([0.2, 0.3, 0.5])
 ```
 
 ```julia
@@ -343,7 +343,7 @@ fromweights([1, 1, 2])
 ```
 
 ```text
-Main.Example.ProbVec([0.25, 0.25, 0.5])
+ProbVec([0.25, 0.25, 0.5])
 ```
 
 ```julia
@@ -407,10 +407,10 @@ end
 ```
 
 ```text
-Main.Example.Gaussian{Float64}  -1.4189385332046727
-Main.Example.Gaussian{Float32}  -1.4189385
-Main.Example.Gaussian{BigFloat}  -1.418938533204672741780329736405617639861397473637783412817151540482765695927251
-Main.Example.Gaussian{Float64}  -1.5466258635350592
+Gaussian{Float64}  -1.4189385332046727
+Gaussian{Float32}  -1.4189385
+Gaussian{BigFloat}  -1.418938533204672741780329736405617639861397473637783412817151540482765695927251
+Gaussian{Float64}  -1.5466258635350592
 ```
 
 </details>
@@ -729,7 +729,7 @@ println("abstract field is ", round(tslow / tfast, digits = 1), "× slower")
 ```
 
 ```text
-abstract field is 26.0× slower
+abstract field is 46.2× slower
 ```
 
 ```julia

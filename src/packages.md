@@ -125,6 +125,11 @@ println(c, ": ", h, " heads, posterior mean ", round(estimate(h, 200); digits = 
 println(isdefined(Main, :posterior_mean), " ", Coins.posterior_mean(1, 1))
 ```
 
+```text
+Coin(p = 0.3): 69 heads, posterior mean 0.347
+false 0.5
+```
+
 </details>
 </div>
 
@@ -170,6 +175,15 @@ end
 push!(LOAD_PATH, dir)            # instead of Pkg.dev, to keep this example self-contained
 using Shrink
 println(shrink([1.0, 2.0, 6.0], 0.5))
+```
+
+```text
+Shrink/Project.toml
+Shrink/src/Shrink.jl
+Precompiling packages...
+    648.1 ms  ✓ Shrink (serial)
+  1 dependency successfully precompiled in 1 seconds
+[2.0, 2.5, 4.5]
 ```
 
 </details>
@@ -218,6 +232,11 @@ end
 end;
 ```
 
+```text
+Test Summary: | Pass  Total  Time
+softmax       |    6      6  0.8s
+```
+
 </details>
 </div>
 
@@ -248,24 +267,30 @@ The first line, indented by four spaces, shows how to call the function.
 <details class="example">
 <summary>Example</summary>
 
-Docstrings can be read from code, here to list the documented functions of a module.
+`@doc` returns a docstring as a Markdown object. `display` renders it as in help mode.
 
 ```julia
-module Tools
-"Log odds of `p`."
-logit(p) = log(p / (1 - p))
-"Inverse of `logit`."
-logistic(x) = 1 / (1 + exp(-x))
-helper(x) = x
-end
+"""
+    logit(p)
 
-for name in names(Tools; all = true)
-    f = getfield(Tools, name)
-    f isa Function || continue
-    doc = Base.Docs.doc(Base.Docs.Binding(Tools, name))
-    s = strip(string(doc))
-    startswith(s, "No documentation") || println(rpad(name, 10), s)
-end
+Log odds of the probability `p`, that is `log(p / (1 - p))`.
+"""
+logit(p) = log(p / (1 - p))
+
+"Inverse of [`logit`](@ref)."
+logistic(x) = 1 / (1 + exp(-x))
+
+display(@doc logit)
+display(@doc logistic)
+println(logistic(logit(0.3)))
+```
+
+```text
+  logit(p)
+
+  Log odds of the probability p, that is log(p / (1 - p)).
+  Inverse of logit.
+0.30000000000000004
 ```
 
 </details>

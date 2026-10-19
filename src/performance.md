@@ -40,6 +40,13 @@ t = @belapsed logsumexp($x)
 println("about ", round(t * 1e9 / length(x); digits = 2), " ns per element")
 ```
 
+```text
+  0.059715 seconds (187.70 k allocations: 9.333 MiB, 99.81% compilation time)
+  0.000083 seconds (4 allocations: 78.211 KiB)
+  46.915 μs (3 allocations: 78.20 KiB)
+about 4.69 ns per element
+```
+
 </details>
 </div>
 
@@ -66,7 +73,7 @@ Use `zero(x)`, `one(x)`, `similar(x)` and `eltype(x)` to make literals and array
 <details class="example">
 <summary>Example</summary>
 
-The initial value `0` makes the accumulator change type inside the loop. Starting from `zero(eltype(v))` is about twice as fast here.
+The initial value `0` makes the accumulator a `Union{Float64, Int64}`. Julia handles small unions well (union splitting), so here the cost is negligible. Instability is expensive when inference gives up and returns `Any`, as with the untyped global and abstract fields in the next box.
 
 ```julia
 using BenchmarkTools, InteractiveUtils
@@ -91,6 +98,13 @@ v = randn(10^6)
 @btime sumsq_good($v)
 println(Base.return_types(sumsq_bad, (Vector{Float64},)))
 println(Base.return_types(sumsq_good, (Vector{Float64},)))
+```
+
+```text
+  871.647 μs (0 allocations: 0 bytes)
+  871.652 μs (0 allocations: 0 bytes)
+Any[Union{Float64, Int64}]
+Any[Float64]
 ```
 
 </details>
@@ -148,7 +162,15 @@ struct PointConcrete{T<:Real}; x::T; y::T; end
 pa = [PointAbstract(randn(), randn()) for _ in 1:10^5]
 pc = [PointConcrete(randn(), randn()) for _ in 1:10^5]
 @btime sum(p -> p.x * p.y, $pa)
-@btime sum(p -> p.x * p.y, $pc)
+@btime sum(p -> p.x * p.y, $pc);
+```
+
+```text
+  6.529 ms (399490 allocations: 7.62 MiB)
+  87.177 μs (0 allocations: 0 bytes)
+  87.180 μs (0 allocations: 0 bytes)
+  3.257 ms (199999 allocations: 3.05 MiB)
+  29.389 μs (0 allocations: 0 bytes)
 ```
 
 </details>
@@ -204,7 +226,13 @@ end
 
 println(power_alloc(A, 500) ≈ power_inplace(A, 500))
 @btime power_alloc($A, 500)
-@btime power_inplace($A, 500)
+@btime power_inplace($A, 500);
+```
+
+```text
+true
+  3.121 ms (2004 allocations: 1.59 MiB)
+  1.915 ms (4 allocations: 3.25 KiB)
 ```
 
 </details>
@@ -263,7 +291,14 @@ Rs = SMatrix{2,2}(R)
 ps = [randn(2) for _ in 1:10^4]
 sps = [SVector{2}(p) for p in ps]
 @btime rotate($R, $ps)
-@btime rotate($Rs, $sps)
+@btime rotate($Rs, $sps);
+```
+
+```text
+  9.885 ms (0 allocations: 0 bytes)
+  3.768 ms (0 allocations: 0 bytes)
+  456.944 μs (20003 allocations: 859.45 KiB)
+  9.277 μs (3 allocations: 156.32 KiB)
 ```
 
 </details>
@@ -327,12 +362,12 @@ The main rules from the Julia manual's performance tips.
 # 8. only then: @inbounds, @simd, @fastmath, threads (see Parallel computing)
 ```
 
-Plain loops are as fast as vectorised code in Julia, so write whichever is clearer.
+Loops are fast in Julia, so there is no need to vectorise for speed. One exception: a floating-point sum in a loop is not SIMD-vectorised unless `@simd` allows it to reorder the additions.
 
 <details class="example">
 <summary>Example</summary>
 
-A loop and a vectorised version of a Gaussian log likelihood run at the same speed, but the loop allocates nothing.
+A Gaussian log likelihood as a plain loop, a loop with `@simd`, and vectorised code. The `@simd` loop is the fastest and allocates nothing.
 
 ```julia
 using BenchmarkTools
@@ -343,11 +378,26 @@ function loglik_loop(y, μ, σ)
     end
     return s - length(y) * (log(σ) + 0.5 * log(2π))
 end
+function loglik_simd(y, μ, σ)
+    s = 0.0
+    @simd for yi in y
+        s += -0.5 * ((yi - μ) / σ)^2
+    end
+    return s - length(y) * (log(σ) + 0.5 * log(2π))
+end
 loglik_vec(y, μ, σ) = sum(-0.5 .* ((y .- μ) ./ σ) .^ 2) - length(y) * (log(σ) + 0.5 * log(2π))
 y = randn(10^5)
-println(loglik_loop(y, 0.1, 1.2) ≈ loglik_vec(y, 0.1, 1.2))
+println(loglik_loop(y, 0.1, 1.2) ≈ loglik_simd(y, 0.1, 1.2) ≈ loglik_vec(y, 0.1, 1.2))
 @btime loglik_loop($y, 0.1, 1.2)
-@btime loglik_vec($y, 0.1, 1.2)
+@btime loglik_simd($y, 0.1, 1.2)
+@btime loglik_vec($y, 0.1, 1.2);
+```
+
+```text
+true
+  154.497 μs (0 allocations: 0 bytes)
+  38.419 μs (0 allocations: 0 bytes)
+  61.995 μs (3 allocations: 781.32 KiB)
 ```
 
 </details>

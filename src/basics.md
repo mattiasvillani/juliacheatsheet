@@ -93,8 +93,8 @@ println("log of sum: ", m + log(sum(exp.(logw .- m))))
 
 ```text
 naive:  [NaN, NaN, NaN]
-stable: [0.6914, 0.2544, 0.0542]
-log of sum: -999.6309492477392
+stable: [0.6897, 0.2537, 0.0566]
+log of sum: -999.6284609681474
 ```
 
 </details>
@@ -210,8 +210,7 @@ println("sum = ", sum(probs), ", mean = ", sum(k * probs[k+1] for k in 0:n))
  4  0.2001 ********************
  5  0.1029 **********
  6  0.0368 ****
- 7  0.009  *
-sum = 1.0000000000000002, mean = 3.0000000000000004
+sum = 0.9999999999999993, mean = 2.9999999999999987
 ```
 
 </details>

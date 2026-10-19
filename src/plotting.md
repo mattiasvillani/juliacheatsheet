@@ -41,7 +41,7 @@ dens(x) = exp(-0.5 * ((x - 1) / 0.8)^2) / (0.8 * sqrt(2π))
 histogram(draws; bins = 40, normalize = :pdf, label = "draws", color = :lightblue, linecolor = :white)
 plot!(dens, -2, 4; label = "N(1, 0.8²)", linewidth = 3, color = :darkblue)
 plot!(; xlabel = "θ", ylabel = "density", size = (600, 350))
-savefig("histogram.png")
+savefig("histogram.png");
 ```
 
 ![Histogram with density](./figures/plotting-histogram.png)
@@ -90,7 +90,7 @@ for step in (0.1, 2.5)
     push!(plots, histogram(d; bins = 30, normalize = :pdf, label = "", title = "step $step"))
 end
 plot(plots...; layout = (2, 2), size = (750, 450))
-savefig("traces.png")
+savefig("traces.png");
 ```
 
 ![Trace plots](./figures/plotting-traces.png)
@@ -129,7 +129,7 @@ plot(Beta(a, b); label = "prior Beta(2, 2)", linewidth = 2, linestyle = :dash)
 plot!(Beta(s + 1, n - s + 1); label = "likelihood (normalised)", linewidth = 2)
 plot!(Beta(a + s, b + n - s); label = "posterior Beta(9, 15)", linewidth = 3, fill = (0, 0.2))
 plot!(; xlabel = "θ", ylabel = "density", size = (600, 350), legend = :topright)
-savefig("beta.png")
+savefig("beta.png");
 ```
 
 ![Beta posterior](./figures/plotting-beta.png)
@@ -170,7 +170,7 @@ contourf(x, y, (a, b) -> logpdf(d, [a, b]); levels = 15, color = :blues, clims =
 z = rand(Xoshiro(3), d, 200)
 scatter!(z[1, :], z[2, :]; color = :orange, markersize = 2.5, markerstrokewidth = 0, label = "draws")
 plot!(; aspect_ratio = 1, size = (520, 450), xlims = (-3, 3), ylims = (-3, 3))
-savefig("contour.png")
+savefig("contour.png");
 ```
 
 ![Contour plot](./figures/plotting-contour.png)
@@ -246,7 +246,7 @@ A two-panel figure: a heatmap of a log posterior with a colorbar, and its margin
 ```julia
 using CairoMakie
 μs = range(1, 3; length = 120)
-σs = range(0.5, 2.5; length = 120)
+σs = range(0.2, 1.5; length = 120)
 y = [2.1, 1.4, 2.9, 2.2, 1.7, 2.6, 1.9]
 logpost(μ, σ) = -length(y) * log(σ) - sum((y .- μ) .^ 2) / (2σ^2) - log(σ)
 L = [logpost(μ, σ) for μ in μs, σ in σs]

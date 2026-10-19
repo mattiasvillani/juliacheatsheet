@@ -42,6 +42,11 @@ f = eval(:(($(v...),) -> $ex))    # (α, x, β) -> α * x^2 + β * log(x)
 println(f(2.0, 3.0, 1.0))
 ```
 
+```text
+variables: [:α, :x, :β]
+19.09861228866811
+```
+
 </details>
 </div>
 
@@ -81,6 +86,11 @@ for op in (:+, :-)
     @eval Base.$op(p::Prior, c::Real) = Prior($op(p.mean, c), p.sd)
 end
 println(Prior(0, 1) + 2, " ", Prior(0, 1) - 2)
+```
+
+```text
+9 27 81
+Prior(2.0, 1.0) Prior(-2.0, 1.0)
 ```
 
 </details>
@@ -133,6 +143,12 @@ x = @timed_as "sort 10^6" sort(rand(10^6))
 @unless issorted(x) error("not sorted")
 @unless false println("this runs")
 println(@macroexpand @unless a b)
+```
+
+```text
+sort 10^6: 625.4 ms
+this runs
+a || b
 ```
 
 </details>
@@ -188,6 +204,12 @@ catch e
 end
 ```
 
+```text
+running MCMCOpts(5000, 1000, 0.5, 1)
+running MCMCOpts(5000, 1000, 0.1, 42)
+error: burnin must be shorter than the run
+```
+
 </details>
 </div>
 
@@ -232,6 +254,20 @@ end
 describe(Model("probit", [0.5, -1.2], 1.0))
 describe(3 + 4im)
 describe(1:2:9)
+```
+
+```text
+Model
+  name    String            probit
+  β       Vector{Float64}   [0.5, -1.2]
+  σ       Float64           1.0
+Complex{Int64}
+  re      Int64             3
+  im      Int64             4
+StepRange{Int64, Int64}
+  start   Int64             1
+  step    Int64             2
+  stop    Int64             9
 ```
 
 </details>

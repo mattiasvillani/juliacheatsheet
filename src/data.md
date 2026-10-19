@@ -55,7 +55,7 @@ countlines(file)
 
 ```text
 downloading mtcars.csv
-using cached /tmp/jl_emB18Y/mtcars.csv
+using cached /tmp/jl_RwKrYv/mtcars.csv
 33
 ```
 

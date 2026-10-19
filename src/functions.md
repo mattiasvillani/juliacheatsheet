@@ -52,6 +52,12 @@ standardize!(x)
 println("standardized: ", round.(x; digits = 3))
 ```
 
+```text
+(mean = 5.0, sd = 2.1908902300206643, cv = 0.43817804600413285)
+cv = 0.438
+standardized: [-1.369, -0.456, -0.456, 0.0, 0.913, 1.369]
+```
+
 </details>
 </div>
 
@@ -108,6 +114,12 @@ for step in (0.1, 1.0, 10.0)
 end
 ```
 
+```text
+step = 0.1: acceptance = 0.93, mean = 2.96
+step = 1.0: acceptance = 0.51, mean = 2.99
+step = 10.0: acceptance = 0.06, mean = 3.02
+```
+
 </details>
 </div>
 
@@ -151,6 +163,12 @@ for d in (Normal1(1, 1), Exponential1(1), Exponential1(1 / 1.02))
 end
 ```
 
+```text
+Normal1(1.0, 1.0)  -5.71
+Exponential1(1.0)  -5.1
+Exponential1(0.9803921568627451)-5.099
+```
+
 </details>
 </div>
 
@@ -189,6 +207,16 @@ display(round.(dens; digits = 4))
 z = zeros(length(x))
 z .= dnorm.(x, 0.0, 1.0) .* 2   # fused, writes into z, no temporary arrays
 println(z == 2 .* dens[:, 1])
+```
+
+```text
+5×2 Matrix{Float64}:
+ 0.054   0.0044
+ 0.242   0.054
+ 0.3989  0.242
+ 0.242   0.3989
+ 0.054   0.242
+true
 ```
 
 </details>
@@ -235,6 +263,12 @@ println(newton(cos, 1.0))
 println(map(f -> newton(f, 1.0).root, [x -> x^3 - 2, x -> exp(x) - 3]))
 ```
 
+```text
+(root = 1.4142135623730951, iterations = 5)
+(root = 1.5707963267948966, iterations = 4)
+[1.2599210498948732, 1.0986122886681096]
+```
+
 </details>
 </div>
 
@@ -264,7 +298,7 @@ end
 ```julia
 words = ["julia", "is", "fast", "and", "dynamic"]
 long = filter(words) do w
-    length(w) > 3 && !occursin("a", w[2:end])
+    length(w) > 3 && w != "julia"
 end
 println(long)
 
@@ -277,6 +311,12 @@ cd(mktempdir()) do
     write("a.txt", "1\n2\n3\n")
     readlines("a.txt") .|> (s -> parse(Int, s)) |> sum |> println
 end
+```
+
+```text
+["fast", "dynamic"]
+vowels: 8
+6
 ```
 
 </details>
@@ -316,6 +356,10 @@ lp = logpost.(grid)
 w = exp.(lp .- maximum(lp)); w ./= sum(w)
 μhat = sum(grid .* w)
 println("posterior mean ≈ ", round(μhat; digits = 3), ", sample mean = ", sum(y) / length(y))
+```
+
+```text
+posterior mean ≈ 4.693, sample mean = 4.7
 ```
 
 </details>

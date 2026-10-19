@@ -133,7 +133,7 @@ println("speed-up with ", Threads.nthreads(), " threads:  default ",
 ```
 
 ```text
-speed-up with 4 threads:  default 1.6×   :greedy 3.3×
+speed-up with 4 threads:  default 1.4×   :greedy 2.7×
 ```
 
 The default scheduler gives each thread one contiguous block of iterations, and the last block holds all the slow n = 80 and n = 160 jobs. `:greedy` hands out iterations one at a time to whichever thread is free. Shuffling the jobs would also help.
@@ -284,7 +284,7 @@ exact = count(inside, 1:n)
 ```
 
 ```text
-(exact = 3142008, racy = 915175, chunked = 3142008, atomic = 3142008)
+(exact = 3142008, racy = 890140, chunked = 3142008, atomic = 3142008)
 ```
 
 ```julia
@@ -356,7 +356,7 @@ println("speed-up: ", round(t1 / t4, digits = 1), "×")
 ```
 
 ```text
-speed-up: 2.1×
+speed-up: 2.0×
 ```
 
 The speed-up is modest because every replicate allocates new arrays, and all threads share one garbage collector. Code that allocates little in the inner loop scales much better.
@@ -414,8 +414,8 @@ res = pmap(i -> mse_of_median(settings[i], i), eachindex(settings))
  (n = 20, mse = 0.07262612423029957, worker = 7)
  (n = 40, mse = 0.03814923323415664, worker = 8)
  (n = 80, mse = 0.019076740752195776, worker = 9)
- (n = 160, mse = 0.009806091456607194, worker = 7)
- (n = 320, mse = 0.004858437254309016, worker = 8)
+ (n = 160, mse = 0.009806091456607194, worker = 6)
+ (n = 320, mse = 0.004858437254309016, worker = 7)
 ```
 
 ```julia
